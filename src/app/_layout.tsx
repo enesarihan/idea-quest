@@ -14,7 +14,7 @@ const myTheme = {
 export default function RootLayout() {
   return (
     <ThemeProvider value={myTheme}>
-      <Slot />;
+      <Slot />
     </ThemeProvider>
   );
 }

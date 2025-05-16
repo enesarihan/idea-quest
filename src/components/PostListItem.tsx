@@ -1,0 +1,59 @@
+import { View, Text, Image, Pressable } from "react-native";
+import React from "react";
+import { Post } from "@/types";
+import { Ionicons } from "@expo/vector-icons";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+const PostListItem = ({ post }: { post: Post }) => {
+  dayjs.extend(relativeTime);
+  return (
+    <View className="flex-row p-4 border-b border-gray-800/70">
+      {/* User avatar */}
+
+      <View className="mr-3">
+        <Image
+          source={{ uri: post.user.image }}
+          className="w-12 h-12 rounded-full"
+        />
+      </View>
+
+      {/* Content */}
+      <View className="flex-1">
+        <View className="flex-row items-center">
+          <Text className="text-white font-bold mr-2">{post.user.name}</Text>
+          <Text className="text-gray-300">@{post.user.username} </Text>
+
+          <Text className="text-gray-300">
+            {dayjs(post.createdAt).fromNow()}
+          </Text>
+        </View>
+        <Text className="text-white mt-2 mb-3">{post.content}</Text>
+
+        {/* Intereaction Buttons */}
+        <View className="flex-row gap-5 mt-2">
+          <Pressable className="flex-row items-center">
+            <Ionicons name="heart-outline" size={20} color={"#d1d5db"} />
+            <Text className="text-gray-300 ml-2">{post.replies.length}</Text>
+          </Pressable>
+
+          <Pressable className="flex-row items-center">
+            <Ionicons name="repeat-outline" size={20} color={"#d1d5db"} />
+            <Text className="text-gray-300 ml-2">0</Text>
+          </Pressable>
+
+          <Pressable className="flex-row items-center">
+            <Ionicons name="chatbubble-outline" size={20} color={"#d1d5db"} />
+            <Text className="text-gray-300 ml-2">0</Text>
+          </Pressable>
+
+          <Pressable className="flex-row items-center">
+            <Ionicons name="paper-plane-outline" size={20} color={"#d1d5db"} />
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default PostListItem;

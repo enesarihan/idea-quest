@@ -52,7 +52,7 @@ export const dummyPosts: Post[] = [
   },
   {
     id: "2",
-    createdAt: "2024-05-01T11:30:00Z",
+    createdAt: "2025-05-01T11:30:00Z",
     content:
       "Working on some new digital art pieces. Can't wait to share them with you all!",
     user_id: "2",

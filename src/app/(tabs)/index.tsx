@@ -1,10 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { dummyPosts } from "@/dummyData";
+import PostListItem from "@/components/PostListItem";
 
 export default function App() {
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-6xl text-white font-bold">Hello World!</Text>
-    </View>
+    <FlatList
+      data={dummyPosts}
+      renderItem={({ item }) => <PostListItem post={item} />}
+    />
   );
 }

@@ -26,6 +26,7 @@ const NewPostScreen = () => {
           multiline
           numberOfLines={4}
           keyboardAppearance="default"
+          placeholderTextColor={"gray"}
         />
 
         <View className="mt-auto">

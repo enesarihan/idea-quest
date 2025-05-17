@@ -13,7 +13,7 @@ const PostListItem = ({ post }: { post: Post }) => {
 
       <View className="mr-3">
         <Image
-          source={{ uri: post.user.image }}
+          source={{ uri: post.user.avatar_url }}
           className="w-12 h-12 rounded-full"
         />
       </View>
@@ -21,11 +21,13 @@ const PostListItem = ({ post }: { post: Post }) => {
       {/* Content */}
       <View className="flex-1">
         <View className="flex-row items-center">
-          <Text className="text-white font-bold mr-2">{post.user.name}</Text>
+          <Text className="text-white font-bold mr-2">
+            {post.user.full_name}
+          </Text>
           <Text className="text-gray-300">@{post.user.username} </Text>
 
           <Text className="text-gray-300">
-            {dayjs(post.createdAt).fromNow()}
+            {dayjs(post.created_at).fromNow()}
           </Text>
         </View>
         <Text className="text-white mt-2 mb-3">{post.content}</Text>
@@ -34,7 +36,7 @@ const PostListItem = ({ post }: { post: Post }) => {
         <View className="flex-row gap-5 mt-2">
           <Pressable className="flex-row items-center">
             <Ionicons name="heart-outline" size={20} color={"#d1d5db"} />
-            <Text className="text-gray-300 ml-2">{post.replies.length}</Text>
+            <Text className="text-gray-300 ml-2">{0}</Text>
           </Pressable>
 
           <Pressable className="flex-row items-center">

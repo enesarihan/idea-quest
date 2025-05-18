@@ -5,31 +5,42 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/providers/AuthProvider";
 import { router } from "expo-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+const createPost = async (content: string, user_id: string) => {
+  const { data } = await supabase
+    .from("posts")
+    .insert({ content, user_id })
+    .select("*")
+    .throwOnError();
+
+  return data;
+};
 
 const NewPostScreen = () => {
   const [text, setText] = useState("");
   const { user } = useAuth();
 
-  const onSubmit = async () => {
-    if (!text) return;
+  const queryClient = useQueryClient();
 
-    const { data, error } = await supabase.from("posts").insert({
-      content: text,
-      user_id: user?.id,
-    });
-
-    if (error) console.error(error);
-
-    setText("");
-
-    router.replace("/(protected)/");
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => createPost(text, user!.id),
+    onSuccess: (data) => {
+      setText("");
+      router.back();
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: (error) => {
+      Alert.alert("Error!", error.message);
+    },
+  });
 
   return (
     <SafeAreaView edges={["bottom"]} className="p-4 flex-1">
@@ -50,8 +61,11 @@ const NewPostScreen = () => {
 
         <View className="mt-auto">
           <Pressable
-            onPress={onSubmit}
-            className="bg-white rounded-full p-4 px-6 self-end"
+            onPress={() => mutate()}
+            className={`${
+              isPending ? "opacity-50" : ""
+            } bg-white rounded-full p-4 px-6 self-end`}
+            disabled={isPending}
           >
             <Text className="font-bold">Post</Text>
           </Pressable>

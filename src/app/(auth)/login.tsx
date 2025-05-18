@@ -5,10 +5,12 @@ import {
   TouchableOpacity,
   Pressable,
   Alert,
+  Image,
 } from "react-native";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -41,34 +43,42 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 items-center justify-center bg-neutral-900 px-6">
-      <View className="w-full max-w-sm">
-        <Text className="text-3xl font-bold text-center mb-8 text-white">
-          Welcome Back
-        </Text>
+    <View className="flex-1 justify-center items-center bg-neutral-950 px-4">
+      <View className="w-full max-w-sm bg-neutral-900 rounded-2xl shadow-lg p-8">
+        {/* Logo or Icon */}
+        <View className="items-center mb-8">
+          <FontAwesome name="fire-extinguisher" className="w-16 h-16 mb-2" />
+          <Text className="text-3xl font-bold text-white tracking-wide">
+            Welcome Back
+          </Text>
+          <Text className="text-neutral-400 mt-1 text-base">
+            Sign in to continue
+          </Text>
+        </View>
 
-        <View className="gap-4">
+        <View className="gap-5">
           <View>
-            <Text className="text-sm font-medium text-neutral-300 mb-1">
+            <Text className="text-sm font-semibold text-neutral-300 mb-2">
               Email
             </Text>
             <TextInput
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg  text-white focus:border-blue-500"
+              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white focus:border-white"
               placeholder="Enter your email"
               placeholderTextColor="#6B7280"
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}
               onChangeText={setEmail}
+              autoFocus
             />
           </View>
 
           <View>
-            <Text className="text-sm font-medium text-neutral-300 mb-1">
+            <Text className="text-sm font-semibold text-neutral-300 mb-2">
               Password
             </Text>
             <TextInput
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg  text-white focus:border-blue-500"
+              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white focus:border-white"
               placeholder="Enter your password"
               placeholderTextColor="#6B7280"
               secureTextEntry
@@ -78,18 +88,20 @@ export default function LoginScreen() {
           </View>
 
           <TouchableOpacity
-            className="w-full bg-white py-3 rounded-lg mt-6"
-            activeOpacity={0.8}
+            className={`w-full py-3 rounded-xl mt-4 ${
+              isLoading ? "bg-white opacity-70" : "bg-white active:bg-white"
+            }`}
+            activeOpacity={0.85}
             onPress={handleLogin}
             disabled={isLoading}
           >
-            <Text className="text-black text-center font-semibold">
+            <Text className="text-black text-center font-semibold text-lg">
               {isLoading ? "Logging in..." : "Sign in"}
             </Text>
           </TouchableOpacity>
 
           <View className="flex-row justify-center mt-4">
-            <Text className="text-gray-400">Don't have an account? </Text>
+            <Text className="text-neutral-400">Don't have an account? </Text>
             <Link href="/signup" asChild>
               <Pressable>
                 <Text className="text-blue-400 font-medium">Create one</Text>
